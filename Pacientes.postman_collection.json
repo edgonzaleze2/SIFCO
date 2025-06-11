@@ -1,0 +1,56 @@
+{
+	"info": {
+		"_postman_id": "23d9c341-3aff-4164-8f37-183a1ae4a4cf",
+		"name": "Pacientes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28887481"
+	},
+	"item": [
+		{
+			"name": "addPaciente",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombrecompleto\": \"jaciento loepz\",\r\n  \"fechanacimiento\": \"1970-20-10\",\r\n  \"sexo\": \"MASCULINO\",\r\n  \"dpi\": \"2541625\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5017/api/Medicina/addPaciente",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5017",
+					"path": [
+						"api",
+						"Medicina",
+						"addPaciente"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getPacinete",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "getpacienteOrden",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - SIFCO</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar superior azul con menú interactivo */
+        nav {
+            background-color: #005a9e;
+            color: white;
+            padding: 0.5rem 1rem;
+        }
+
+            nav ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                display: flex;
+            }
+
+                nav ul li {
+                    position: relative;
+                    margin-right: 1.5rem;
+                    cursor: pointer;
+                }
+
+                    nav ul li:last-child {
+                        margin-right: 0;
+                    }
+
+                    nav ul li a {
+                        color: white;
+                        text-decoration: none;
+                        font-weight: bold;
+                        display: block;
+                        padding: 0.5rem 0;
+                        user-select: none;
+                    }
+
+                    nav ul li:hover > a {
+                        color: #ffcc00;
+                    }
+
+                    /* Submenú */
+                    nav ul li ul {
+                        position: absolute;
+                        top: 100%;
+                        left: 0;
+                        background-color: #004080;
+                        display: none;
+                        min-width: 160px;
+                        padding: 0.5rem 0;
+                        border-radius: 0 0 4px 4px;
+                        box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+                        z-index: 1000;
+                    }
+
+                    nav ul li:hover ul {
+                        display: block;
+                    }
+
+                    nav ul li ul li {
+                        margin: 0;
+                    }
+
+                        nav ul li ul li a {
+                            padding: 0.5rem 1rem;
+                            font-weight: normal;
+                        }
+
+                            nav ul li ul li a:hover {
+                                background-color: #003366;
+                                color: #ffcc00;
+                            }
+
+        /* Contenedor principal con margen superior para que no quede tapado por el navbar */
+        .container.body-content {
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            background-color: white;
+            min-height: calc(100vh - 60px);
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            border-radius: 6px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li>
+                <a href="#">Pacientes ▼</a>
+                <ul>
+                    <li><a href="@Url.Action("Index", "Pacientes")">Registrar Paciente</a></li>
+                    <li><a href="@Url.Action("ListarPacientes", "Pacientes")">Listar Pacientes</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Médicos ▼</a>
+                <ul>
+                    <li><a href="@Url.Action("RegistrarMedico", "Medicos")">Registrar Médico</a></li>
+                    <li><a href="@Url.Action("ListarMedicos", "Medicos")">Listar Médicos</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Consultas ▼</a>
+                <ul>
+                    <li><a href="@Url.Action("NuevaConsulta", "Consultas")">Nueva Consulta</a></li>
+                    <li><a href="@Url.Action("HistorialConsultas", "Consultas")">Historial de Consultas</a></li>
+                </ul>
+            </li>
+            <li><a href="@Url.Action("Reportes", "Home")">Reportes</a></li>
+        </ul>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - SIFCO</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

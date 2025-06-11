@@ -1,0 +1,352 @@
+﻿
+@{
+    ViewBag.Title = "Registrar Paciente";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Pacientes</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row mb-3">
+            <!-- Combo a la izquierda -->
+            <div class="col-md-6">
+                <select id="filtroNombre" class="form-control">
+                    <option value="">Buscar por nombre</option>
+                    <option value="Juan">Juan</option>
+                    <option value="María">María</option>
+                    <!-- Llena dinámicamente si lo deseas -->
+                </select>
+            </div>
+
+            <!-- Botón a la derecha -->
+            <div class="col-md-6 text-right">
+                <button class="btn btn-primary" onclick="abrirModalAgregar()">
+                    + Nuevo Paciente
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="mt-4">
+            <table id="tablaPacientes" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Fecha Nac.</th>
+                        <th>Sexo</th>
+                        <th>DPI</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+    <!-- Modal Agregar -->
+    <div class="modal fade" id="modalAgregar" tabindex="-1" aria-labelledby="modalAgregarLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formAgregarPaciente">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title mx-auto" id="modalAgregarLabel">
+                            <i class="fas fa-user-plus mr-2"></i> Agregar Paciente
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-2">
+                            <label>Nombre completo:</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="mb-2">
+                            <label>Fecha de nacimiento:</label>
+                            <input type="date" class="form-control" name="fechaNacimiento" id="fecha_nacimiento" required>
+                        </div>
+                        <div class="mb-2">
+                            <label for="sexo">Sexo:</label>
+                            <select class="form-control" name="sexo" id="sexo" required>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label>DPI:</label>
+                            <input type="text" class="form-control" id="dpi"  name="dpi"  placeholder="____ _____ ____" required>
+                            <p id="mensaje" style="color: red;"></p>
+                        </div>
+                        <div class="mb-2">
+                            <label>Código de verificación:</label>
+                            <input type="text" id="codigo-verificacion" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    <!-- Modal Editar -->
+    <div class="modal fade" id="modalEditar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="formEditarPaciente">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title">Editar Paciente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="editCodigo">
+                        <div class="mb-3">
+                            <label>Nombre</label>
+                            <input type="text" id="editNombre" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Fecha Nacimiento</label>
+                            <input type="date" id="editFecha" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Sexo</label>
+                            <select id="editSexo" class="form-select" required>
+                                <option value="">Seleccione</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>DPI</label>
+                            <input type="text" id="editDPI" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar -->
+    <div class="modal fade" id="modalEliminar" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Eliminar Paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro que desea eliminar este paciente?</p>
+                    <input type="hidden" id="deleteCodigo">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" id="btnConfirmarEliminar">Eliminar</button>
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="jquery.dataTables.min.css">
+    <script src="jquery.dataTables.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.6.0/css/bootstrap.min.css" />
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .modal-header {
+      background-color: #007bff;
+          color: white;
+          border-bottom: none;
+          text-align: center;
+    }
+
+    .modal-title {
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    </style>
+
+
+    <script>
+
+
+    $(document).ready(function () {
+        cargarPacientes();
+        // cargarFiltroNombres();
+
+    });
+
+    $(document).on('input', '#dpi', function () {
+        let value = $(this).val().replace(/\D/g, '');
+
+        value = value.slice(0, 13);
+
+        let formatted = '';
+        if (value.length > 0) formatted += value.slice(0, 4);
+        if (value.length > 4) formatted += ' ' + value.slice(4, 9);
+        if (value.length > 9) formatted += ' ' + value.slice(9, 13);
+
+        $(this).val(formatted);
+
+        const dpiRegex = /^\d{4} \d{5} \d{4}$/;
+        const mensaje = $('#mensaje');
+
+        if (formatted.length === 15) {
+            if (dpiRegex.test(formatted)) {
+                mensaje.text('DPI válido').css('color', 'green');
+                const verificacion = generarCodigoVerificacion(formatted);
+                $('#codigo-verificacion').val(verificacion);
+            } else {
+                mensaje.text('Formato inválido').css('color', 'red');
+                $('#codigo-verificacion').val('');
+            }
+        } else {
+            mensaje.text('');
+        }
+    });
+
+    function generarCodigoVerificacion(dpi) {
+        const soloNumeros = dpi.replace(/\D/g, '');
+        const digitos = soloNumeros.split('');
+        const unicos = [...new Set(digitos)];
+        const ordenados = unicos.sort((a, b) => b - a);
+        const mayores4 = ordenados.slice(0, 4);
+        while (mayores4.length < 4) mayores4.push('0');
+        return mayores4.join('');
+    }
+
+    function abrirModalAgregar() {
+        console.log('llego al modal');
+        $('#formAgregarPaciente')[0].reset();
+        $('#modalAgregar').modal('show');
+    }
+
+    $('#formAgregarPaciente').submit(function (e) {
+        e.preventDefault();
+        console.log('aqui esta funcionando');
+        const paciente = {
+            nombrecompleto: $('#nombre').val(),
+            fecha_nacimiento: $('#fecha_nacimiento').val(),
+            genero: $('#sexo').val(),
+            dpi: $('#dpi').val()
+        };
+        $.ajax({
+            url: '/Pacientes/IngresarPaciente',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(paciente),
+            success: function () {
+                $('#modalAgregar').modal('hide');
+                tabla.ajax.reload();
+                cargarFiltroNombres(); // actualizar el combo
+            }
+        });
+    });
+
+    function cargarFiltroNombres() {
+        $.get('/Paciente/GetNombres', function (data) {
+            const select = $('#filtroNombre');
+            select.empty().append('<option value="">-- Todos --</option>');
+            data.forEach(n => {
+                select.append(`<option value="${n}">${n}</option>`);
+            });
+        });
+    }
+
+    $('#filtroNombre').change(function () {
+        const nombre = $(this).val();
+        tabla.column(1).search(nombre).draw();
+    });
+
+
+
+
+    function cargarPacientes() {
+        $('#tablaPacientes').DataTable({
+            ajax: {
+                url: '/Pacientes/ConsultarPaciente',
+                dataSrc: ''
+            },
+            destroy: true,
+            columns: [
+                { data: 'Codigo' },
+                { data: 'NombreCompleto' },
+                {
+                    data: 'FechaNacimiento',
+                    render: function (data) {
+                        return new Date(data).toLocaleDateString();
+                    }
+                },
+                { data: 'Sexo' },
+                { data: 'DPI' },
+                {
+                    data: 'Codigo',
+                    render: function (data) {
+                        return `
+                                <button onclick="editar('${data}')">Editar</button>
+                                <button onclick="eliminar('${data}')">Eliminar</button>
+                            `;
+                    }
+                }
+            ]
+        });
+    }
+
+    function abrirModalEditar(codigo) {
+        $.get('/Paciente/GetById?codigo=' + codigo, function (data) {
+            $('#editCodigo').val(data.Codigo);
+            $('#editNombre').val(data.NombreCompleto);
+            $('#editFecha').val(data.FechaNacimiento.substring(0,10));
+            $('#editSexo').val(data.Sexo);
+            $('#editDPI').val(data.DPI);
+            new bootstrap.Modal(document.getElementById('modalEditar')).show();
+        });
+    }
+
+
+    $('#formEditarPaciente').submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/Paciente/Editar',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(paciente),
+            success: function () {
+                $('#modalEditar').modal('hide');
+                tabla.ajax.reload();
+            }
+        });
+    });
+
+    function abrirModalEliminar(codigo) {
+        $('#deleteCodigo').val(codigo);
+        new bootstrap.Modal(document.getElementById('modalEliminar')).show();
+    }
+
+    $('#btnConfirmarEliminar').click(function () {
+        const codigo = $('#deleteCodigo').val();
+
+        $.ajax({
+            url: '/Paciente/Eliminar',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ Codigo: codigo }),
+            success: function () {
+                $('#modalEliminar').modal('hide');
+                tabla.ajax.reload();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

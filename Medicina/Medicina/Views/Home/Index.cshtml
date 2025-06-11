@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<div style="text-align:center; margin-top: 40px;">
+
+    <h1 style="color: #005a9e; font-weight: bold; font-family: Verdana, sans-serif;">
+        Bienvenido al Sistema de Control Médico SIFCO
+    </h1>
+
+    <p style="font-size: 1.2rem; color: #333; max-width: 600px; margin: 20px auto; font-family: Verdana, sans-serif;">
+        Administra fácilmente pacientes, médicos y citas médicas desde una sola plataforma.
+        Optimiza la gestión y seguimiento con nuestro sistema intuitivo.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 40px;">
+
+        <a href="@Url.Action("ListarPacientes", "Pacientes")"
+           style="background-color: #005a9e; color: white; padding: 20px 30px; border-radius: 8px;
+                  font-size: 1.2rem; font-weight: bold; font-family: Verdana, sans-serif; text-decoration: none;
+                  box-shadow: 0 4px 8px rgba(0, 90, 158, 0.3); transition: background-color 0.3s ease;">
+            Pacientes
+        </a>
+
+        <a href="@Url.Action("ListarMedicos", "Medicos")"
+           style="background-color: #007acc; color: white; padding: 20px 30px; border-radius: 8px;
+                  font-size: 1.2rem; font-weight: bold; font-family: Verdana, sans-serif; text-decoration: none;
+                  box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3); transition: background-color 0.3s ease;">
+            Médicos
+        </a>
+
+        <a href="@Url.Action("HistorialConsultas", "Consultas")"
+           style="background-color: #003366; color: white; padding: 20px 30px; border-radius: 8px;
+           font-size 1.2rem;
